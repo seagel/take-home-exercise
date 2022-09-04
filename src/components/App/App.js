@@ -24,6 +24,11 @@ class App extends React.Component {
     }
   }
 
+  updateFromChild(){
+    this.setState({loading : true})
+    this.fetchInitialData();
+  }
+
   async fetchInitialData() {
     const response = await axios.get('/team');
     this.setState({
@@ -38,21 +43,22 @@ class App extends React.Component {
     }
 
     return (
-      <div className="app">
-        <div className="team-grid" />
-        {this.state.team.map(member => (
-          <TeamMember
-            key={member.id}
-            name={`${member.firstName} ${member.lastName}`}
-            title={member.title}
-            photoUrl={member.photoUrl}
-            story={member.story}
-            favoriteColor={member.favoriteColor}
-          />
-        ))}
-        {/* Make this new team member link to your form! */}
-        <TeamMember id="new" name="Join us!" title="New Teammate" />
-      </div>
+        <div className="app">
+          <div className="team-grid" />
+          {this.state.team.map(member => (
+              <TeamMember
+                  key={member.id}
+                  name={`${member.firstName} ${member.lastName}`}
+                  title={member.title}
+                  photoUrl={member.photoUrl}
+                  story={member.story}
+                  favoriteColor={member.favoriteColor}
+                  updateFromChild = {this.updateFromChild}
+              />
+          ))}
+          {/* Make this new team member link to your form! */}
+          <TeamMember id="new" name="Join us!" title="New Teammate" />
+        </div>
     );
   }
 }
